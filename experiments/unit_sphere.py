@@ -66,8 +66,10 @@ def k_fig(k):
 	return M, C
 
 M, C = k_fig(10)
-f = plt.figure()
-ax = f.add_subplot(111)
-for m in M:
-	ax.plot(sphere_jit[:, m])
-plt.show()
+from scipy import spatial
+delaunay = spatial.Delaunay(np.transpose(sphere_jit[:, np.array(M)]))
+
+from mveh import find_mveh
+for j in range(delaunay.simplices.shape[0]):
+	goober = find_mveh(sphere_jit[:, delaunay.simplices[j, :]])
+	print(goober)

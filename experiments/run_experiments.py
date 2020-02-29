@@ -6,13 +6,13 @@ d = 3
 
 import pickle as pkl
 try:
-	with open("unit_sphere_with_jitter.pkl", "rb") as f:
+	with open("data/unit_sphere_with_jitter.pkl", "rb") as f:
 		sphere_jit = pkl.load(f)
 except FileNotFoundError:
 	from unit_sphere import sample_spherical
 	sphere = sample_spherical(n, d)
 	sphere_jit = sphere + 0.1*np.random.randn(d, n)
-	with open("unit_sphere_with_jitter.pkl", "wb") as f:
+	with open("data/unit_sphere_with_jitter.pkl", "wb") as f:
 		pkl.dump(sphere_jit, f)
 
 from unit_sphere import draw_spherical_data
@@ -20,7 +20,7 @@ from unit_sphere import draw_spherical_data
 
 from k_medoids import kMedoids
 try:
-	with open("unit_sphere_dist_mat.pkl", "rb") as f:
+	with open("data/unit_sphere_dist_mat.pkl", "rb") as f:
 		dist_mat = pkl.load(f)
 except FileNotFoundError:
 	print("Populating distance matrix...")
@@ -28,7 +28,7 @@ except FileNotFoundError:
 	for j in range(n):
 		for k in range(n):
 			dist_mat[j, k] = np.linalg.norm(sphere_jit[:, j]-sphere_jit[:, k])
-	with open("unit_sphere_dist_mat.pkl", "wb") as f:
+	with open("data/unit_sphere_dist_mat.pkl", "wb") as f:
 		pkl.dump(dist_mat, f)
 
 def k_fig(k, show=False):

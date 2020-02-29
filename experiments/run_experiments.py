@@ -51,9 +51,9 @@ def k_fig(k, show=False):
 
 M, C = k_fig(10)
 
+Ms = dict((j, sphere_jit[:, m]) for j, m in enumerate(M))
 Cs = dict((j, sphere_jit[:,C[j]]) for j in range(len(M)))
 
-print("Computing covariance matrices...")
 Covs = dict((j, np.cov(Cs[j])) for j in range(len(M)))
 
 eigVals = {}
@@ -61,7 +61,12 @@ eigVecs = {}
 for j in range(len(M)):
 	eigVals[j], eigVecs[j] = np.linalg.eigh(Covs[j])
 
-for j in range(len(M)):
-	print(eigVals[j])
-	print(eigVecs[j])
-	print("\n")
+from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
+from unit_sphere import draw_spherical_mesh, draw_neighborhoods_from_pca
+
+draw_neighborhoods_from_pca(Ms, eigVals, eigVecs)
+
+fig, ax = plt.subplots(1, 1, subplot_kw={'projection':'3d'})
+draw_spherical_mesh(ax, n_phi_rots=10, n_theta_rots=20)
+plt.show()

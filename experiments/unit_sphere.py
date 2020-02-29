@@ -14,9 +14,9 @@ def sample_spherical(npoints, ndim=3):
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 
-def draw_spherical_mesh(ax):
-	phi = np.linspace(0, np.pi, 20)
-	theta = np.linspace(0, 2 * np.pi, 40)
+def draw_spherical_mesh(ax, n_phi_rots=20, n_theta_rots=40):
+	phi = np.linspace(0, np.pi, n_phi_rots)
+	theta = np.linspace(0, 2 * np.pi, n_theta_rots)
 	x = np.outer(np.sin(theta), np.cos(phi))
 	y = np.outer(np.sin(theta), np.sin(phi))
 	z = np.outer(np.cos(theta), np.ones_like(phi))
@@ -30,3 +30,8 @@ def draw_spherical_data(sphere_jit, wire=True):
 		draw_spherical_mesh(ax)
 	ax.scatter(xi, yi, zi, s=100, c='r', zorder=10)
 	plt.show()
+
+def draw_neighborhoods_from_pca(Ms, eigVals, eigVecs):
+	print(Ms)
+	print(eigVals)
+	print(eigVecs)

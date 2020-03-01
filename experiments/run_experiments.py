@@ -65,8 +65,11 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 from unit_sphere import draw_spherical_mesh, draw_neighborhoods_from_pca
 
-draw_neighborhoods_from_pca(Ms, eigVals, eigVecs)
+from general_dr import reduce_eigendicts
 
-fig, ax = plt.subplots(1, 1, subplot_kw={'projection':'3d'})
-draw_spherical_mesh(ax, n_phi_rots=10, n_theta_rots=20)
+rEigVals, rEigVecs = reduce_eigendicts(eigVals, eigVecs, 2)
+
+ax = draw_neighborhoods_from_pca(Ms, rEigVecs)
+draw_spherical_mesh(ax)
+
 plt.show()

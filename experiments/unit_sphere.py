@@ -31,7 +31,26 @@ def draw_spherical_data(sphere_jit, wire=True):
 	ax.scatter(xi, yi, zi, s=100, c='r', zorder=10)
 	plt.show()
 
-def draw_neighborhoods_from_pca(Ms, eigVals, eigVecs):
-	print(Ms)
-	print(eigVals)
-	print(eigVecs)
+# The below is taken from DSM's answer on the following
+# Stack Overflow post:
+# https://stackoverflow.com/questions/4622057/plotting-3d-polygons-in-python-matplotlib
+
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from itertools import product
+
+def draw_neighborhoods_from_pca(Ms, eigVecs):
+	fig = plt.figure()
+	ax = Axes3D(fig)
+	for key in Ms.keys():
+		m = Ms[key]
+		u, v = eigVecs[key]
+		uu = 0.5*u
+		vv = 0.5*v
+		ps = []
+		ps.append(m + uu + vv)
+		ps.append(m + uu - vv)
+		ps.append(m - uu + vv)
+		ps.append(m - uu - vv)
+		ax.add_collection3d(Poly3DCollection([ps]))
+	return ax

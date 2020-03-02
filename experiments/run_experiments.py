@@ -23,9 +23,10 @@ try:
 	with open("data/unit_sphere_dist_mat.pkl", "rb") as f:
 		dist_mat = pkl.load(f)
 except FileNotFoundError:
+	from tqdm import tqdm
 	print("Populating distance matrix...")
 	dist_mat = np.zeros((n, n))
-	for j in range(n):
+	for j in tqdm(range(n)):
 		for k in range(n):
 			dist_mat[j, k] = np.linalg.norm(sphere_jit[:, j]-sphere_jit[:, k])
 	with open("data/unit_sphere_dist_mat.pkl", "wb") as f:

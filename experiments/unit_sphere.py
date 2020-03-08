@@ -50,7 +50,7 @@ def draw_neighborhoods_from_pca(Ms, eigVecs):
 		ps = []
 		ps.append(m + uu + vv)
 		ps.append(m + uu - vv)
-		ps.append(m - uu + vv)
 		ps.append(m - uu - vv)
+		ps.append(m - uu + vv)
 		ax.add_collection3d(Poly3DCollection([ps]))
 	return ax

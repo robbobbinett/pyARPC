@@ -34,12 +34,11 @@ except FileNotFoundError:
 
 p = sphere_jit[:, 0]
 dist_from_p = dist_mat[0, :]
-radii = np.arange(0.01, 0.5, 0.01)
+radii = np.arange(0.2, 2.0, 0.01)
 
 eigVals = []
 eigVecs = []
 
-print("Looking at eigenvals for varying radii...")
 for rad in tqdm(radii):
 	ps = sphere_jit[:, dist_from_p < rad]
 	cov = np.cov(ps)
@@ -55,6 +54,7 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
 for j in range(d):
-	ax.plot(radii, eigVals[:, j], color="b")
+	ax.plot(radii, eigVals[:, j])
 
 plt.show()
+

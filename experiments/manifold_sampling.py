@@ -40,6 +40,3 @@ def sample_psd_fixed_rank(d, k, n):
 		with open("data/psdfr__"+str(d)+"_"+str(k)+"_"+str(n)+".pkl", "wb") as f:
 			pkl.dump(points, f)
 	return points
-
-sample_grassmann(11, 5, 1000)
-sample_psd_fixed_rank(50, 10, 1000)

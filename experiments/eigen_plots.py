@@ -26,7 +26,7 @@ try:
 except FileNotFoundError:
 	print("Populating distance matrix...")
 	dist_mat = np.zeros((n, n))
-	for j in tqdm(range(n)):
+	for j in range(n):
 		for k in range(n):
 			dist_mat[j, k] = np.linalg.norm(sphere_jit[:, j]-sphere_jit[:, k])
 	with open("data/unit_sphere_dist_mat.pkl", "wb") as f:
@@ -60,23 +60,22 @@ for j in range(d):
 
 fig.savefig("graphics/eigvals.pdf")
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection="3d")
-
 eigVecsX = eigVecs[:, 0, :]
 eigVecsY = eigVecs[:, 1, :]
 eigVecsZ = eigVecs[:, 2, :]
 
 @gif.frame
 def plot_vec(ind, k):
+	fig = plt.figure()
+	ax = fig.add_subplot(111, projection="3d")
 	ax.plot(eigVecsX[0:ind, k], eigVecsY[0:ind, k], eigVecsZ[0:ind, k])
-	ax.set_xlim(-5, 5)
-	ax.set_ylim(-5, 5)
-	ax.set_zlim(-5, 5)
+	ax.set_xlim(-1, 1)
+	ax.set_ylim(-1, 1)
+	ax.set_zlim(-1, 1)
 
-frames = []
-for ind in range(eigVecs.shape[0]):
-	frame = plot_vec(ind, 0)
-	frames.append(frame)
-
-gif.save(frames, "graphics/eigenvecs.gif", duration=200)
+for j in range(3):
+	frames = []
+	for ind in range(eigVecs.shape[0]):
+		frame = plot_vec(ind, j)
+		frames.append(frame)
+	gif.save(frames, "graphics/eigenvecs_"+str(j)+".gif", duration=200)

@@ -50,11 +50,33 @@ eigVals = np.stack(eigVals)
 eigVecs = np.stack(eigVecs)
 
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import gif
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
 for j in range(d):
 	ax.plot(radii, eigVals[:, j])
 
-plt.show()
+fig.savefig("graphics/eigvals.pdf")
 
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+
+eigVecsX = eigVecs[:, 0, :]
+eigVecsY = eigVecs[:, 1, :]
+eigVecsZ = eigVecs[:, 2, :]
+
+@gif.frame
+def plot_vec(ind, k):
+	ax.plot(eigVecsX[0:ind, k], eigVecsY[0:ind, k], eigVecsZ[0:ind, k])
+	ax.set_xlim(-5, 5)
+	ax.set_ylim(-5, 5)
+	ax.set_zlim(-5, 5)
+
+frames = []
+for ind in range(eigVecs.shape[0]):
+	frame = plot_vec(ind, 0)
+	frames.append(frame)
+
+gif.save(frames, "graphics/eigenvecs.gif", duration=200)

@@ -22,21 +22,29 @@ def sample_grassmann(d, p, n):
 			pkl.dump(points, f)
 	return points
 
-def sample_psd_fixed_rank(d, k, n):
+def sample_psd_fixed_rank(d, k, n, norm_bound=None):
 	"""
-	Sample n points from the manifold of n x n PSD matrices of
+	Sample n points from the manifold of d x d PSD matrices of
 	rank k using pymanopt.manifolds.psd.PSDFixedRank.rand
 	"""
+	if not norm_bound:
+		norm_bound = np.inf
 	try:
-		with open("data/psdfr__"+str(d)+"_"+str(k)+"_"+str(n)+".pkl", "rb") as f:
+		with open("data/psdfr__"+str(d)+"_"+str(k)+"_"+str(n)+"_"+str(norm_bound)+".pkl", "rb") as f:
 			points = pkl.load(f)
 	except FileNotFoundError:
 		print("Sampling "+str(n)+" points from PSDFixedRank("+str(n)+","+str(k)+")...")
+		print("Rejecting all points with Frobenius norm greater than "+str(norm_bound)+"...")
 		manifold = PSDFixedRank(d, k)
 		points = []
 		for _ in tqdm(range(n)):
-			points.append(manifold.rand())
+			cond = False
+			while not cond:
+				point = manifold.rand()
+				if np.linalg.norm(point, "fro") < norm_bound:
+					points.append(manifold.rand())
+					cond = True
 		points = np.stack(points)
-		with open("data/psdfr__"+str(d)+"_"+str(k)+"_"+str(n)+".pkl", "wb") as f:
+		with open("data/psdfr__"+str(d)+"_"+str(k)+"_"+str(n)+"_"+str(norm_bound)+".pkl", "wb") as f:
 			pkl.dump(points, f)
 	return points

@@ -68,7 +68,7 @@ eigVecsZ = eigVecs[:, 2, :]
 def plot_vec(ind, k):
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection="3d")
-	ax.plot(eigVecsX[0:ind, k], eigVecsY[0:ind, k], eigVecsZ[0:ind, k])
+	ax.plot(eigVecsX[0:ind, k], eigVecsY[0:ind, k], eigVecsZ[0:ind, k], "bs")
 	ax.set_xlim(-1, 1)
 	ax.set_ylim(-1, 1)
 	ax.set_zlim(-1, 1)

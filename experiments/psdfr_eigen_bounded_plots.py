@@ -22,7 +22,7 @@ except FileNotFoundError:
 	with open("data/psdfr_bounded_distances.pkl", "wb") as f:
 		pkl.dump(dist_from_p, f)
 
-radii = np.arange(np.sort(dist_from_p)[10], 29, 0.05)
+radii = np.arange(np.sort(dist_from_p)[10], 100, 0.05)
 eigVals = []
 eigVecs = []
 

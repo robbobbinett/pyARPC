@@ -1,6 +1,6 @@
 import numpy as np
 from k_medoids import kMedoids
-from sklearn.svm import SVC
+from general_ortho import ortho_basis_of_span
 
 def reduce_eigendicts(eigVals, eigVecs, d):
 	new_vals = {}

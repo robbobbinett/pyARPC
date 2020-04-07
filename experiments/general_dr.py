@@ -1,5 +1,6 @@
 import numpy as np
 from k_medoids import kMedoids
+from sklearn.svm import SVC
 
 def reduce_eigendicts(eigVals, eigVecs, d):
 	new_vals = {}
@@ -29,7 +30,7 @@ def choose_mean_quotient_eigenvector(eigVecs):
 	Clustering is done by 2-medoids.
 	"""
 	# get number of eigenvectors
-	N = len(eigVecs)
+	N = eigVecs.shape[0]
 
 	# populate distance matrix
 	dist_mat = np.zeros((N, N))
@@ -39,6 +40,30 @@ def choose_mean_quotient_eigenvector(eigVecs):
 
 	# get clusters from 2-medoids
 	_, C = kMedoids(dist_mat, 2)
+
+	# create cluster labels for each point
+#	labels = np.zeros((N,))
+#	for key in C.keys():
+#		for ind in C[key]:
+#			labels[ind] = (-1)**key
+	labels_dict = {}
+	for key in C.keys():
+		str_key = str(key)
+		for ind in C[key]:
+			labels_dict[ind] = str_key
+	labels = [labels_dict[j] for j in range(N)]
+
+	# create maximum-margin separating hyperplane between original two clusters
+	svm = SVC(kernel="linear")
+	svm.fit(eigVecs, labels)
+	print(svm.fit_status_)
+	print(svm.predict(eigVecs))
+	for key in C.keys():
+		for ind in C[key]:
+			assert svm.decision_function(np.reshape(eigVecs[ind,:], (1, 3)))[0] == str(key)
+	print(dir(svm))
+	print(svm.support_)
+	print(svm.support_vectors_)
 
 	# reflect all vectors in second cluster
 	newEigVecs = eigVecs.copy()

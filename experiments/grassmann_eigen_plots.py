@@ -34,14 +34,12 @@ for rad in tqdm(radii):
 	eigVals.append(vals)
 	eigVecs.append(vecs)
 
-eigVals = np.stack(eigVals)
-eigVecs = np.stack(eigVecs)
+eigVals_stacked = np.stack(eigVals)
+eigVecs_stacked = np.stack(eigVecs)
 
-import matplotlib.pyplot as plt
-
-fig = plt.figure()
-ax = fig.add_subplot(111)
-for j in range(d):
-	ax.plot(radii, eigVals[:, j])
-
-fig.savefig("graphics/grassmann_eigvals.pdf")
+from general_ortho import ortho_basis_of_span
+temp = []
+for eigVec in eigVecs[0:2]:
+	list_of_vecs = [eigVec[:, j] for j in range(eigVec.shape[1])]
+	Q = ortho_basis_of_span(list_of_vecs)
+	print(Q.shape)

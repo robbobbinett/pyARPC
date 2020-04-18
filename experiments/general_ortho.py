@@ -15,8 +15,8 @@ def is_independent(list_of_vecs):
 	if not all([isinstance(item, np.ndarray) for item in list_of_vecs]):
 		raise TypeError("All elements of list_of_vecs should be of type np.ndarray; currently of types: "+", ".join([str(type(item)) for item in list_of_vecs]))
 	# make sure first vector is an array of dimension 1
-	if list_of_vecs[0].dim != 1:
-		raise ValueError("The first element of list_of_vecs should be of dimension 1; currently of dimension "+str(list_of_vecs[0].dim)+".")
+	if len(list_of_vecs[0].shape) != 1:
+		raise ValueError("The first element of list_of_vecs should be of dimension 1; currently of dimension "+str(len(list_of_vecs[0].shape))+".")
 	# make sure all vectors have same shape
 	init_shape = list_of_vecs[0].shape
 	if not all([item.shape == init_shape for item in list_of_vecs]):

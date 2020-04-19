@@ -57,13 +57,8 @@ eigVecsZ = eigVecs[:, 2, :]
 
 from general_dr import choose_mean_quotient_eigenvector
 quotMeanX = choose_mean_quotient_eigenvector(eigVecsX)
-print(quotMeanX)
-print(np.linalg.norm(quotMeanX))
-
-print(eigVecsX.shape)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-#ax.hist([np.linalg.norm(eigVecsX[j,:]) for j in range(len(eigVecsX))], 50)
 ax.plot([np.linalg.norm(eigVecsX[j,:]) for j in range(len(eigVecsX))])
 plt.show()

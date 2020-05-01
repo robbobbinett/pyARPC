@@ -41,3 +41,17 @@ def ortho_basis_of_span(list_of_vecs):
 	mat_from_vec = np.stack(list_of_vecs, axis=0)
 	Q, _ = np.linalg.qr(mat_from_vec)
 	return Q
+
+def jordan_angles(L, M):
+	"""
+	Computes the Jordan angles between k-dimensional subspaces
+	L, M according to the last line on page 2 of Neretin 2000
+	https://arxiv.org/abs/math/0005059
+
+	Here, L, M are represented as Stiefel matrices (i.e. the columns
+	of the representations comprise orthonormal bases of L, M,
+	respectively)
+	"""
+	prod_mat = np.transpose(L) @ M
+	angles = np.sqrt(np.sum(prod_mat**2, axis=0))
+	return np.sort(angles)

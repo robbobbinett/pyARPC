@@ -1,5 +1,5 @@
 import numpy as np
-from pymanopt.manifolds import Grassmann, PSDFixedRank, Rotations
+from pymanopt.manifolds import Grassmann, PSDFixedRank, Rotations, Stiefel
 import pickle as pkl
 from tqdm import tqdm
 
@@ -65,5 +65,24 @@ def sample_rotations_manifold(d, n):
 			points.append(manifold.rand())
 		points = np.stack(points)
 		with open("data/rotations__"+str(d)+"_"+str(n)+".pkl", "wb") as f:
+			pkl.dump(points, f)
+	return points
+
+def sample_stiefel(d, k, n):
+	"""
+	Sample n points from the d x k Stiefel matrices using
+	pymanopt.manifolds.Stiefel.rand
+	"""
+	try:
+		with open("data/stiefel__"+str(d)+"_"+str(k)+"_"+str(n)+".pkl", "rb") as f:
+			points = pkl.load(f)
+	except FileNotFoundError:
+		print("Sampling "+str(n)+" points from Stiefel("+str(d)+","+str(k)+")...")
+		manifold = Stiefel(d, k)
+		points = []
+		for _ in tqdm(range(n)):
+			points.append(manifold.rand())
+		points = np.stack(points)
+		with open("data/stiefel__"+str(d)+"_"+str(k)+"_"+str(n)+".pkl", "rb") as f:
 			pkl.dump(points, f)
 	return points

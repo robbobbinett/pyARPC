@@ -29,7 +29,7 @@ def is_independent(list_of_vecs):
 
 def ortho_basis_of_span(list_of_vecs):
 	"""
-	Takes a list of linearly independent vectors (i.e. NumPy araays
+	Takes a list of linearly independent vectors (i.e. NumPy arrays
 	of dimension 1 with identical shape) and returns an orthonormal
 	basis for their span. Generates span using np.linalg.qr
 	"""
